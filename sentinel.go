@@ -9,9 +9,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8/internal"
-	"github.com/go-redis/redis/v8/internal/pool"
-	"github.com/go-redis/redis/v8/internal/rand"
+	"github.com/xkfen/redis/v8/internal"
+	"github.com/xkfen/redis/v8/internal/pool"
+	"github.com/xkfen/redis/v8/internal/rand"
 )
 
 //------------------------------------------------------------------------------
@@ -658,8 +658,8 @@ func (c *sentinelFailover) trySwitchMaster(ctx context.Context, addr string) {
 	}
 	c._masterAddr = addr
 
-	internal.Logger.Printf(ctx, "sentinel: new master=%q addr=%q",
-		c.opt.MasterName, addr)
+	//internal.Logger.Printf(ctx, "sentinel: new master=%q addr=%q",
+	//	c.opt.MasterName, addr)
 	if c.onFailover != nil {
 		c.onFailover(ctx, addr)
 	}
@@ -697,8 +697,8 @@ func (c *sentinelFailover) discoverSentinels(ctx context.Context) {
 		if ip != "" && port != "" {
 			sentinelAddr := net.JoinHostPort(ip, port)
 			if !contains(c.sentinelAddrs, sentinelAddr) {
-				internal.Logger.Printf(ctx, "sentinel: discovered new sentinel=%q for master=%q",
-					sentinelAddr, c.opt.MasterName)
+				//internal.Logger.Printf(ctx, "sentinel: discovered new sentinel=%q for master=%q",
+				//	sentinelAddr, c.opt.MasterName)
 				c.sentinelAddrs = append(c.sentinelAddrs, sentinelAddr)
 			}
 		}
