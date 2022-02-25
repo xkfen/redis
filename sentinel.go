@@ -506,12 +506,12 @@ func (c *sentinelFailover) MasterAddr(ctx context.Context) (string, error) {
 		_ = c.closeSentinel()
 	}
 
-	internal.Logger.Printf(ctx, "master:%s, all sentinel addr:%v", c.opt.MasterName, c.sentinelAddrs)
 	for i, sentinelAddr := range c.sentinelAddrs {
-		internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s", c.opt.MasterName, sentinelAddr)
-		if strings.Contains(sentinelAddr , "127.0.0.0") {
+		if sentinelAddr == "127.0.0.1:26379" {
+			internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s, continue=====", c.opt.MasterName, sentinelAddr)
 			continue
 		}
+		internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s", c.opt.MasterName, sentinelAddr)
 		sentinel := NewSentinelClient(c.opt.sentinelOptions(sentinelAddr))
 		masterAddr, err := sentinel.GetMasterAddrByName(ctx, c.opt.MasterName).Result()
 		if err != nil {
