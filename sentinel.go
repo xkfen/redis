@@ -507,11 +507,10 @@ func (c *sentinelFailover) MasterAddr(ctx context.Context) (string, error) {
 	}
 
 	for i, sentinelAddr := range c.sentinelAddrs {
+		// 排除掉127.0.0.1的sentinel
 		if sentinelAddr == "127.0.0.1:26379" {
-			internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s, continue=====", c.opt.MasterName, sentinelAddr)
 			continue
 		}
-		internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s", c.opt.MasterName, sentinelAddr)
 		sentinel := NewSentinelClient(c.opt.sentinelOptions(sentinelAddr))
 		masterAddr, err := sentinel.GetMasterAddrByName(ctx, c.opt.MasterName).Result()
 		if err != nil {
