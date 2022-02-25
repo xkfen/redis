@@ -506,6 +506,7 @@ func (c *sentinelFailover) MasterAddr(ctx context.Context) (string, error) {
 		_ = c.closeSentinel()
 	}
 
+	internal.Logger.Printf(ctx, "master:%s, all sentinel addr:%v", c.sentinelAddrs)
 	for i, sentinelAddr := range c.sentinelAddrs {
 		sentinel := NewSentinelClient(c.opt.sentinelOptions(sentinelAddr))
 		internal.Logger.Printf(ctx, "master:%s, sentinel addr:%s", c.opt.MasterName, sentinelAddr)
